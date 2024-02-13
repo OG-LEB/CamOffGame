@@ -109,6 +109,7 @@ public class PlayerMovement : MonoBehaviour
                 _locationScanSystem.Scan();
             }
         }
+
     }
     private void FixedUpdate()
     {
@@ -146,7 +147,7 @@ public class PlayerMovement : MonoBehaviour
         Vector3 pushDirection = VokzalGuyTransform.right * 1 + VokzalGuyTransform.forward * PushBackForce;
         characterController.Move(pushDirection);
     }
-    public void RestartStamina() 
+    public void RestartStamina()
     {
         StaminaValue = 1;
         Debug.Log("stamina");

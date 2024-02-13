@@ -28,6 +28,7 @@ public class PlayerCameraRotation : MonoBehaviour
     }
     private void Update()
     {
+
         if (!_levelController.GetPauseState())
         {
             float valueX = Input.GetAxis("Mouse X") * Sensitivity * Time.deltaTime;
@@ -100,7 +101,7 @@ public class PlayerCameraRotation : MonoBehaviour
         currentShakeCornerAngle = WalkShakeCornerAngle;
         currentShakeValueStep = WalkShakeValueStep;
     }
-    public void ResetAxis() 
+    public void ResetAxis()
     {
         Input.ResetInputAxes();
         yRotation = 0f;

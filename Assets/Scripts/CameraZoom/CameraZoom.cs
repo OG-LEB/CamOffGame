@@ -45,9 +45,11 @@ public class CameraZoom : MonoBehaviour
     }
     private void FixedUpdate()
     {
+
         if (!_levelController.GetPauseState())
         {
             _camera.fieldOfView = Mathf.Lerp(_camera.fieldOfView, currentZoomValue, Time.deltaTime * ZoomTime);
         }
+
     }
 }

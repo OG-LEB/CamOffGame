@@ -387,4 +387,5 @@ public class LevelController : MonoBehaviour
         soundController.PauseSounds();
         soundController.EndGameCutScene();
     }
+    public void LoadNocLip() { SceneManager.LoadScene(1); }
 }
