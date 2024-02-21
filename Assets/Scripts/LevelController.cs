@@ -27,9 +27,7 @@ public class LevelController : MonoBehaviour
     [SerializeField] private GameObject Player;
     [SerializeField] private Transform PlayerSpawnPosition;
     [Space]
-    [Header("Sounds")]
-    [SerializeField] private AudioSource[] LocationAmbient;
-    [Space]
+
     [Header("GameData")]
     [SerializeField] private int FilmObjectsCounter;
     [SerializeField] private int AmountOfFilmObjects;
@@ -83,10 +81,7 @@ public class LevelController : MonoBehaviour
         MainMenuCamera.SetActive(true);
         Cursor.lockState = CursorLockMode.Confined;
         Time.timeScale = 1f;
-        foreach (var sound in LocationAmbient)
-        {
-            sound.Stop();
-        }
+
         FilmObjectsCounter = 0;
         foreach (var obj in FilmObjects)
         {
@@ -233,10 +228,6 @@ public class LevelController : MonoBehaviour
         soundController.PlayButtonSound();
         _PlayerCameraRotation.ResetAxis();
         //Location sounds
-        foreach (var sound in LocationAmbient)
-        {
-            sound.Play();
-        }
         CurrentGameState = GameState.playing;
         isGameOver = false;
         soundController.StopMainMenuSoundTrack();
@@ -253,6 +244,7 @@ public class LevelController : MonoBehaviour
         soundController.EndGameCutScene();
         Player.GetComponent<PlayerMovement>().RestartStamina();
         GameAwake();
+
     }
     public void EmptyButton()
     {

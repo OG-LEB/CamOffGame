@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -93,6 +94,7 @@ public class VokzalGuyScript : MonoBehaviour
             SpriteController.StartWalk();
             StopAllCoroutines();
             _SoundController.StartChaseSound();
+            Debug.Log("Player on trigger");
         }
     }
     private void OnTriggerExit(Collider col)
@@ -100,6 +102,7 @@ public class VokzalGuyScript : MonoBehaviour
         if (col.CompareTag("Player"))
         {
             SeePlayer = false;
+            Debug.Log("Player goes away");
         }
     }
     public void Spawn()

@@ -22,14 +22,14 @@ public class VokzalGuySpriteController : MonoBehaviour
     }
     public void StartAnimation()
     {
-        StartCoroutine(SpriteAnimation());
-        Debug.Log("Start sprite animation");
+        //StartCoroutine(SpriteAnimation());
+        //Debug.Log("Start sprite animation");
 
     }
     public void StopAnimation()
     {
-        StopAllCoroutines();
-        Debug.Log("Stop sprite animation");
+        //StopAllCoroutines();
+        //Debug.Log("Stop sprite animation");
     }
     public void StartWalk()
     {
@@ -65,7 +65,7 @@ public class VokzalGuySpriteController : MonoBehaviour
         if (speed != 0)
             time = AnimationSpeedByTime / speed;
         yield return new WaitForSeconds(time);
-        Debug.Log($"Sprite Animation {time}");
+        //Debug.Log($"Sprite Animation {time}");
         StartCoroutine(SpriteAnimation());
     }
 }

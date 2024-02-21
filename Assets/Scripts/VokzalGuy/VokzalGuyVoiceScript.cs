@@ -34,5 +34,6 @@ public class VokzalGuyVoiceScript : MonoBehaviour
         yield return new WaitForSeconds(seconds);
         PlayVoice();
         StartCoroutine(Talking());
+        //Debug.Log("Voice off");
     }
 }

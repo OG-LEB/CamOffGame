@@ -150,6 +150,6 @@ public class PlayerMovement : MonoBehaviour
     public void RestartStamina()
     {
         StaminaValue = 1;
-        Debug.Log("stamina");
+        //Debug.Log("stamina");
     }
 }

@@ -101,17 +101,17 @@ public class FilmObject : MonoBehaviour
     private void SpawnVokzalGuy()
     {
         int value = Random.Range(0, 100);
-        if (value >= 70)
+        if (value >= 1)
         {
             int spawnid = Random.Range(0, VokzalGuySpawnPoints.Length);
             LevelController.GetInstance().SpawnVokzalGuy(VokzalGuySpawnPoints[spawnid].position);
-            Debug.Log("VaokzalGuy spawned");
+            //Debug.Log("VaokzalGuy spawned");
         }
         else if (value < 70 && value > 30)
         {
             int spawnid = Random.Range(0, VokzalGuySpawnPoints.Length);
             LevelController.GetInstance().SpawnScarySound(VokzalGuySpawnPoints[spawnid].position);
-            Debug.Log("ScarySound spawned");
+            //Debug.Log("ScarySound spawned");
         }
 
     }

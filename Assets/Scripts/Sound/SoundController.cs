@@ -85,38 +85,36 @@ public class SoundController : MonoBehaviour
     }
     public void PlayMainMenuSoundTrack()
     {
-        MainMenuSountrack.Play();
+        //MainMenuSountrack.Play();
     }
     public void StopMainMenuSoundTrack()
     {
-        MainMenuSountrack.Stop();
+        //MainMenuSountrack.Stop();
     }
     public void StartExploreSound()
     {
-        if (!ExploreSountrack.isPlaying)
-        {
-            ChaseSountrack.Pause();
-            ExploreSountrack.Play();
-            //Debug.Log("Start explore theme");
-        }
+        //if (!ExploreSountrack.isPlaying)
+        //{
+        //    ChaseSountrack.Pause();
+        //    ExploreSountrack.Play();
+        //}
     }
     public void StartChaseSound()
     {
-        if (!ChaseSountrack.isPlaying)
-        {
-            ExploreSountrack.Pause();
-            ChaseSountrack.Play();
-            //Debug.Log("Start chase theme");
-        }
+        //if (!ChaseSountrack.isPlaying)
+        //{
+        //    ExploreSountrack.Pause();
+        //    ChaseSountrack.Play();
+        //}
     }
     public void DisablePlaySoundTrack() 
     {
-        ExploreSountrack.Pause();
-        ChaseSountrack.Pause();
+        //ExploreSountrack.Pause();
+        //ChaseSountrack.Pause();
     }
     public void EndGameCutScene() 
     {
-        ExploreSountrack.Stop();
-        ChaseSountrack.Stop();
+        //ExploreSountrack.Stop();
+        //ChaseSountrack.Stop();
     }
 }
