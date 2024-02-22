@@ -98,21 +98,22 @@ public class SoundController : MonoBehaviour
         //    ChaseSountrack.Pause();
         //    ExploreSountrack.Play();
         //}
+        ChaseSountrack.Pause();
     }
     public void StartChaseSound()
     {
-        //if (!ChaseSountrack.isPlaying)
-        //{
-        //    ExploreSountrack.Pause();
-        //    ChaseSountrack.Play();
-        //}
+        if (!ChaseSountrack.isPlaying)
+        {
+            //    ExploreSountrack.Pause();
+            ChaseSountrack.Play();
+        }
     }
-    public void DisablePlaySoundTrack() 
+    public void DisablePlaySoundTrack()
     {
         //ExploreSountrack.Pause();
         //ChaseSountrack.Pause();
     }
-    public void EndGameCutScene() 
+    public void EndGameCutScene()
     {
         //ExploreSountrack.Stop();
         //ChaseSountrack.Stop();
