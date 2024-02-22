@@ -6,11 +6,39 @@ public class CameraShootingScript : MonoBehaviour
     [SerializeField] private Transform Camera;
     [SerializeField] private float ShootDistance;
     [SerializeField] private PlayUIController _PlayUIController;
+    private LevelController _LevelController;
+    [SerializeField] private CameraFlashScript _cameraFlash;
+    [SerializeField] private LocationScanSystem _locationScanSystem;
     //Flash Stamina
     [Header("FlashStamina")]
     [SerializeField] private float StaminaValue;
     [SerializeField] private bool CanFlash;
     [SerializeField] private float FlashRegenerationSpeed;
+    [Space]
+    [Header("Sounds")]
+    [SerializeField] private AudioSource LeftMouseSound;
+    [SerializeField] private AudioSource RightMouseSound;
+    private void Start()
+    {
+        _LevelController = LevelController.GetInstance();
+    }
+    private void Update()
+    {
+        if (!_LevelController.GetPauseState())
+        {
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                LeftMouseSound.Play();
+                _cameraFlash.Flash();
+                Shoot();
+            }
+            if (Input.GetKeyDown(KeyCode.Mouse1))
+            {
+                RightMouseSound.Play();
+                _locationScanSystem.Scan();
+            }
+        }
+    }
     public void Shoot() 
     {
         RaycastHit hit;

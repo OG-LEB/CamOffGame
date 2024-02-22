@@ -94,7 +94,7 @@ public class VokzalGuyScript : MonoBehaviour
             SpriteController.StartWalk();
             StopAllCoroutines();
             _SoundController.StartChaseSound();
-            Debug.Log("Player on trigger");
+            //Debug.Log("Player on trigger");
         }
     }
     private void OnTriggerExit(Collider col)
@@ -102,7 +102,7 @@ public class VokzalGuyScript : MonoBehaviour
         if (col.CompareTag("Player"))
         {
             SeePlayer = false;
-            Debug.Log("Player goes away");
+            //Debug.Log("Player goes away");
         }
     }
     public void Spawn()

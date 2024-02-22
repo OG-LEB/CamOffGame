@@ -60,6 +60,7 @@ public class PlayerMovement : MonoBehaviour
 
 
             IsGrounded = Physics.CheckSphere(GroundCheckPoint.position, GroundCheckDistance, GroundCheckLayrMask);
+            Debug.DrawLine(GroundCheckPoint.position, GroundCheckPoint.position + new Vector3(0, -GroundCheckDistance, 0));
             if (IsGrounded && VectorYVelocity < 0)
             {
                 VectorYVelocity = -1f;

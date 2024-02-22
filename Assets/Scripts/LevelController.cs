@@ -15,7 +15,7 @@ public class LevelController : MonoBehaviour
     [SerializeField] private WindowController windowController;
     [SerializeField] private SoundController soundController;
     [SerializeField] private PlayUIController _PlayUIController;
-    [SerializeField] private PlayerCameraRotation _PlayerCameraRotation;
+    //[SerializeField] private PlayerCameraRotation _PlayerCameraRotation;
     [SerializeField] private CameraZoom _CameraZoom;
 
     [Space]
@@ -226,7 +226,8 @@ public class LevelController : MonoBehaviour
         windowController.MainMenuSetState(false);
         windowController.PlayWindowSetActiveState(true);
         soundController.PlayButtonSound();
-        _PlayerCameraRotation.ResetAxis();
+        //_PlayerCameraRotation.ResetAxis();
+        Player.GetComponent<FirstPersonController>().ResetMouse();
         //Location sounds
         CurrentGameState = GameState.playing;
         isGameOver = false;
@@ -242,7 +243,8 @@ public class LevelController : MonoBehaviour
         windowController.GameOverSetActiveState(false);
         soundController.PauseSounds();
         soundController.EndGameCutScene();
-        Player.GetComponent<PlayerMovement>().RestartStamina();
+        //Player.GetComponent<PlayerMovement>().RestartStamina();
+        Player.GetComponent<FirstPersonController>().RestartStamina();
         GameAwake();
 
     }
@@ -291,7 +293,8 @@ public class LevelController : MonoBehaviour
     }
     public void HitPlayer()
     {
-        Player.GetComponent<PlayerMovement>().Hit();
+        //Player.GetComponent<PlayerMovement>().Hit();
+        Player.GetComponent<FirstPersonController>().Hit();
         switch (Health)
         {
             case 2:
