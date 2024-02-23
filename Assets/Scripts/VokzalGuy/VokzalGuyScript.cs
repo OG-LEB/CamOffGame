@@ -9,6 +9,7 @@ public class VokzalGuyScript : MonoBehaviour
     //private VokzalGuySpriteController SpriteController;
     private LevelController _LevelController;
     [SerializeField] private SoundController _SoundController;
+    private VokzalGuyAnimationController _AnimationController;
     [Space]
     [Header("Settings")]
     [SerializeField] private float WalkSpeed;
@@ -22,7 +23,7 @@ public class VokzalGuyScript : MonoBehaviour
     [SerializeField] private NavMeshAgent navMesh;
     [SerializeField] bool walk = true;
     [SerializeField] private bool SeePlayer;
-    [SerializeField] private float TimeBeforeDisappear;
+    [SerializeField] private float CheckTime;
     [SerializeField] private float TimeBeforeHit;
     [SerializeField] private Transform[] PatrolPoints;
     [SerializeField] private Transform currentPatrolPoint;
@@ -42,6 +43,7 @@ public class VokzalGuyScript : MonoBehaviour
         currentSpeed = WalkSpeed;
         //SpriteController.UpdateSpeedValue(currentSpeed / WalkSpeed);
         _LevelController = LevelController.GetInstance();
+        _AnimationController = GetComponent<VokzalGuyAnimationController>();
     }
     private void NewPatrolPoint()
     {
@@ -123,6 +125,7 @@ public class VokzalGuyScript : MonoBehaviour
         {
             walk = true;
             SeePlayer = true;
+            _AnimationController.UpdateChasingBool(true);
             //SpriteController.StartWalk();
             StopAllCoroutines();
             _SoundController.StartChaseSound();
@@ -141,6 +144,7 @@ public class VokzalGuyScript : MonoBehaviour
     {
         walk = true;
         Patrol = true;
+        _AnimationController.UpdateChasingBool(false);
         //SeePlayer = true;
         //SpriteController.StartAnimation();
         //SpriteController.StartWalk();
@@ -153,6 +157,7 @@ public class VokzalGuyScript : MonoBehaviour
     {
         StopAllCoroutines();
         StartCoroutine(GetShotC());
+        _AnimationController.Flash();
     }
     private IEnumerator GetShotC()
     {
@@ -183,13 +188,16 @@ public class VokzalGuyScript : MonoBehaviour
     private IEnumerator CheckArea()
     {
         _SoundController.StartExploreSound();
-        yield return new WaitForSeconds(TimeBeforeDisappear);
+        _AnimationController.Check();
+        yield return new WaitForSeconds(CheckTime);
         //LevelController.GetInstance().DisappearVokzalGuy();
         //Continue
         Patrol = true;
+        _AnimationController.UpdateChasingBool(false);
     }
     private IEnumerator Hit()
     {
+        _AnimationController.Punch();
         yield return new WaitForSeconds(TimeBeforeHit);
         LevelController.GetInstance().HitPlayer();
         if (Vector3.Distance(transform.position, Player.position) <= 3f && SeePlayer)
@@ -207,5 +215,6 @@ public class VokzalGuyScript : MonoBehaviour
     public void Restart()
     {
         SeePlayer = false;
+        _AnimationController.Restart();
     }
 }

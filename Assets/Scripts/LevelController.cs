@@ -78,7 +78,6 @@ public class LevelController : MonoBehaviour
     private void GameAwake()
     {
         VokzalGuy.SetActive(false);
-        VokzalGuy.GetComponent<VokzalGuyScript>().Restart();
         windowController.MainMenuSetState(true);
         Player.SetActive(false);
         MainMenuCamera.SetActive(true);
@@ -284,6 +283,7 @@ public class LevelController : MonoBehaviour
             VokzalGuy.SetActive(true);
             VokzalGuy.GetComponent<VokzalGuyScript>().StartMotion();
             Debug.Log("Spawned vokzalGuy");
+            VokzalGuy.GetComponent<VokzalGuyScript>().Restart();
         }
     }
     public bool GetVokzalGuySeePlayerState() { return VokzalGuy.GetComponent<VokzalGuyScript>().GetSeePlayerState(); }
