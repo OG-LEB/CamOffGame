@@ -16,6 +16,7 @@ public class FilmObject : MonoBehaviour
     [Header("VokzalGuy Spawn")]
     [SerializeField] private Transform[] VokzalGuySpawnPoints;
     private LocationScanSystem locationScanSystem;
+    private LevelController levelController;
 
     private void Start()
     {
@@ -23,6 +24,7 @@ public class FilmObject : MonoBehaviour
         mesh.materials[1].color = new Color(0, 1, 0, 1);
         mesh.materials[1].SetFloat("_Scale", 0);
         locationScanSystem = LocationScanSystem.GetInstance();
+        levelController = LevelController.GetInstance();
     }
     public void Film()
     {
@@ -101,16 +103,17 @@ public class FilmObject : MonoBehaviour
     private void SpawnVokzalGuy()
     {
         int value = Random.Range(0, 100);
-        if (value >= 1)
+        if (value >= 70 && !levelController.GetVokzalGuySeePlayerState())
+        //if (value >= 1)
         {
             int spawnid = Random.Range(0, VokzalGuySpawnPoints.Length);
-            LevelController.GetInstance().SpawnVokzalGuy(VokzalGuySpawnPoints[spawnid].position);
-            //Debug.Log("VaokzalGuy spawned");
+            levelController.TeleportVokzalGuy(VokzalGuySpawnPoints[spawnid].position);
+            Debug.Log("VaokzalGuy teleported");
         }
         else if (value < 70 && value > 30)
         {
             int spawnid = Random.Range(0, VokzalGuySpawnPoints.Length);
-            LevelController.GetInstance().SpawnScarySound(VokzalGuySpawnPoints[spawnid].position);
+            levelController.SpawnScarySound(VokzalGuySpawnPoints[spawnid].position);
             //Debug.Log("ScarySound spawned");
         }
 

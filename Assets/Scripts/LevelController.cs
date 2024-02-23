@@ -34,12 +34,14 @@ public class LevelController : MonoBehaviour
     [SerializeField] private FilmObject[] FilmObjects;
     [SerializeField] private GameState CurrentGameState;
     [SerializeField] private GameObject VokzalGuy;
-    private bool VokzalGuySpawned = false;
+    //private bool VokzalGuySpawned = false;
     [SerializeField] private int Health;
     [SerializeField] private ScaryLocationSound _ScarySound;
     private bool isGameOver;
     private bool canWeUnlockPauseByTab;
     [SerializeField] private GameObject EndGameTrigger;
+    [SerializeField] private Transform[] VokzalGuySpawnPoints;
+
     [Space]
     [Header("CameraScars")]
     [SerializeField] private GameObject CameraScar_0;
@@ -76,6 +78,7 @@ public class LevelController : MonoBehaviour
     private void GameAwake()
     {
         VokzalGuy.SetActive(false);
+        VokzalGuy.GetComponent<VokzalGuyScript>().Restart();
         windowController.MainMenuSetState(true);
         Player.SetActive(false);
         MainMenuCamera.SetActive(true);
@@ -89,7 +92,7 @@ public class LevelController : MonoBehaviour
         }
         LocationScanSystem.GetInstance().Restart();
         Health = 2;
-        VokzalGuySpawned = false;
+        //VokzalGuySpawned = false;
         CameraScar_0.SetActive(false);
         CameraScar_0pause.SetActive(false);
         CameraScar_1.SetActive(false);
@@ -153,7 +156,7 @@ public class LevelController : MonoBehaviour
         if (CurrentGameState == GameState.pause && EndCutScene)
         {
             //if (Input.GetKeyDown(KeyCode.Space) && _videoPlayer.frame > 120)
-            if (Input.GetKeyDown(KeyCode.Space) )
+            if (Input.GetKeyDown(KeyCode.Space))
             {
                 //_videoPlayer.Stop();
                 EndCutScene = false;
@@ -163,7 +166,7 @@ public class LevelController : MonoBehaviour
             }
             //if (_videoPlayer.frame > 120)
             //{
-                SpaceText.SetActive(true);
+            SpaceText.SetActive(true);
             //}
             //if (!_videoPlayer.isPlaying && _videoPlayer.frame > 60)
             //{
@@ -259,6 +262,10 @@ public class LevelController : MonoBehaviour
     public void NewFilmObject()
     {
         FilmObjectsCounter++;
+        if (FilmObjectsCounter == 1)
+        {
+            SpawnVokzalGuy();
+        }
         soundController.PlayCollectSound();
         if (FilmObjectsCounter >= AmountOfFilmObjects)
         {
@@ -269,28 +276,37 @@ public class LevelController : MonoBehaviour
             UpdateFilmObjectsCounter();
         }
     }
-    public void SpawnVokzalGuy(Vector3 position)
+    public void SpawnVokzalGuy()
     {
-        if (!VokzalGuySpawned)
+        if (!VokzalGuy.activeSelf)
         {
-            VokzalGuy.transform.position = position;
+            VokzalGuy.transform.position = VokzalGuySpawnPoints[Random.Range(0, VokzalGuySpawnPoints.Length)].position;
             VokzalGuy.SetActive(true);
-            VokzalGuy.GetComponent<VokzalGuyScript>().Spawn();
-            VokzalGuySpawned = true;
+            VokzalGuy.GetComponent<VokzalGuyScript>().StartMotion();
+            Debug.Log("Spawned vokzalGuy");
         }
     }
-    public void SpawnScarySound(Vector3 position) 
+    public bool GetVokzalGuySeePlayerState() { return VokzalGuy.GetComponent<VokzalGuyScript>().GetSeePlayerState(); }
+    public void TeleportVokzalGuy(Vector3 position)
+    {
+        if (!VokzalGuy.activeSelf)
+        {
+            VokzalGuy.SetActive(true);
+        }
+        VokzalGuy.transform.position = position;
+    }
+    public void SpawnScarySound(Vector3 position)
     {
         _ScarySound.transform.position = position;
         _ScarySound.Play();
     }
-    public void DisappearVokzalGuy()
-    {
-        VokzalGuy.GetComponent<VokzalGuyScript>().Dissapear();
-        VokzalGuy.SetActive(false);
-        VokzalGuySpawned = false;
-        
-    }
+    //public void DisappearVokzalGuy()
+    //{
+    //    VokzalGuy.GetComponent<VokzalGuyScript>().Dissapear();
+    //    VokzalGuy.SetActive(false);
+    //    //VokzalGuySpawned = false;
+
+    //}
     public void HitPlayer()
     {
         //Player.GetComponent<PlayerMovement>().Hit();
@@ -333,6 +349,7 @@ public class LevelController : MonoBehaviour
         soundController.PauseSounds();
         isGameOver = true;
         soundController.DisablePlaySoundTrack();
+        VokzalGuy.SetActive(false);
     }
     public void OpenNote()
     {
