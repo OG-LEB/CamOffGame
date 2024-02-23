@@ -25,8 +25,7 @@ public class VokzalGuyScript : MonoBehaviour
     [SerializeField] private float TimeBeforeHit;
     [Header("Settings Scene")]
     [SerializeField] private Transform Player;
-    //private Transform target;
-    //private Rigidbody rigidbody;
+
 
 
     private void Start()

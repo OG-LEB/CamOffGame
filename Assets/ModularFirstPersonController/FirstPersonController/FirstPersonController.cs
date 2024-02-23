@@ -178,7 +178,7 @@ public class FirstPersonController : MonoBehaviour
             {
                 sprintStamina += sprintStaminaRegenerationStep;
                 PlayUI.TurnOnRunStaminaUI();
-                Debug.Log("Regeneration");
+                //Debug.Log("Regeneration");
                 PlayUI.UpdateRunStaminaFillImageValue(sprintStamina);
                 if (sprintStamina >= sprintStaminaMin)
                 {
@@ -293,7 +293,7 @@ public class FirstPersonController : MonoBehaviour
                 if (sprintStamina > 0)
                 {
                     sprintStamina -= sprintStaminaStep;
-                    Debug.Log("sprining stamina");
+                    //Debug.Log("sprining stamina");
                     PlayUI.TurnOnRunStaminaUI();
                     PlayUI.UpdateRunStaminaFillImageValue(sprintStamina);
                     if (sprintStamina <= 0)
