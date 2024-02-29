@@ -14,23 +14,33 @@ public class VokzalGuyVoiceScript : MonoBehaviour
         audio.clip = VoiceLines[Random.Range(0, VoiceLines.Length)];
         audio.Play();
     }
-    private void OnTriggerEnter(Collider col)
+    //private void OnTriggerEnter(Collider col)
+    //{
+    //    if (col.CompareTag("Player"))
+    //    {
+    //        PlayVoice();
+    //        StartCoroutine(Talking());
+    //    }
+    //}
+    //private void OnTriggerExit(Collider col)
+    //{
+    //    if (col.CompareTag("Player"))
+    //    {
+    //        StopAllCoroutines();
+    //    }
+    //}
+    public void StartTalking() 
     {
-        if (col.CompareTag("Player"))
-        {
-            StartCoroutine(Talking());
-        }
+        PlayVoice();
+        StartCoroutine(Talking());
     }
-    private void OnTriggerExit(Collider col)
+    public void StopTalking() 
     {
-        if (col.CompareTag("Player"))
-        {
-            StopAllCoroutines();
-        }
+        StopAllCoroutines();
     }
     private IEnumerator Talking() 
     {
-        int seconds = Random.Range(3, 10);
+        int seconds = Random.Range(5, 20);
         yield return new WaitForSeconds(seconds);
         PlayVoice();
         StartCoroutine(Talking());

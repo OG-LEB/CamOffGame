@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Video;
+using UnityEngine.AI;
 
 public class LevelController : MonoBehaviour
 {
@@ -68,6 +69,7 @@ public class LevelController : MonoBehaviour
         else
             return false;
     }
+    public int GetFilmObjectsCount() { return FilmObjectsCounter; }
     private void Start()
     {
         GameAwake();
@@ -287,18 +289,23 @@ public class LevelController : MonoBehaviour
         }
     }
     public bool GetVokzalGuySeePlayerState() { return VokzalGuy.GetComponent<VokzalGuyScript>().GetSeePlayerState(); }
+
+    public void SpawnScarySound(Vector3 position)
+    {
+        _ScarySound.transform.position = position;
+        _ScarySound.Play();
+    }
     public void TeleportVokzalGuy(Vector3 position)
     {
         if (!VokzalGuy.activeSelf)
         {
             VokzalGuy.SetActive(true);
         }
+        NavMeshAgent agent = VokzalGuy.GetComponent<NavMeshAgent>();
+        agent.gameObject.SetActive(false);
         VokzalGuy.transform.position = position;
-    }
-    public void SpawnScarySound(Vector3 position)
-    {
-        _ScarySound.transform.position = position;
-        _ScarySound.Play();
+        agent.gameObject.SetActive(true);
+        //agent.isStopped = false;
     }
     //public void DisappearVokzalGuy()
     //{

@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float CurrentSpeed;
     [SerializeField] private float WalkSpeed;
     [SerializeField] private float SprintSpeed;
+    [SerializeField] private bool wKey = false;
     [Space]
     [Header("PushBack")]
     [SerializeField] private float PushBackForce;
@@ -86,7 +87,7 @@ public class PlayerMovement : MonoBehaviour
             }
 
             //Sprint
-            if (Input.GetKeyDown(KeyCode.LeftShift) && vertical > 0 && StaminaValue >= StaminaMinValueSoSprint && (Mathf.Abs(horizontal) + Mathf.Abs(vertical)) > 0)
+            if (Input.GetKeyDown(KeyCode.LeftShift) && vertical > 0 && StaminaValue >= StaminaMinValueSoSprint && (Mathf.Abs(horizontal) + Mathf.Abs(vertical)) > 0 && wKey)
             {
                 Sprint = true;
                 _cameraRotationScript.StartRun();
@@ -108,6 +109,14 @@ public class PlayerMovement : MonoBehaviour
             {
                 RightMouseSound.Play();
                 _locationScanSystem.Scan();
+            }
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                wKey = true;
+            }
+            if (Input.GetKeyUp(KeyCode.W))
+            {
+                wKey = false;
             }
         }
 

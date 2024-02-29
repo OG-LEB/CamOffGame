@@ -1,3 +1,4 @@
+using System;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.TextCore;
@@ -84,6 +85,8 @@ public class FilmObject : MonoBehaviour
         playerNear = false;
         colorFadeVal = 0;
         scaleFadeVal = 0;
+        if (mesh == null)
+            mesh = GetComponent<MeshRenderer>();
         mesh.materials[1].color = new Color(0, 1, 0, 1);
         mesh.materials[1].SetFloat("_Scale", 0);
         fadeout = false;
@@ -102,17 +105,18 @@ public class FilmObject : MonoBehaviour
     }
     private void SpawnVokzalGuy()
     {
-        int value = Random.Range(0, 100);
-        if (value >= 70 && !levelController.GetVokzalGuySeePlayerState())
-        //if (value >= 1)
+        int value = UnityEngine.Random.Range(0, 100);
+        //if (value >= 70 && !levelController.GetVokzalGuySeePlayerState())
+        if (value >= 0 && !levelController.GetVokzalGuySeePlayerState() && levelController.GetFilmObjectsCount() > 1)
         {
-            int spawnid = Random.Range(0, VokzalGuySpawnPoints.Length);
+            int spawnid = UnityEngine.Random.Range(0, VokzalGuySpawnPoints.Length);
             levelController.TeleportVokzalGuy(VokzalGuySpawnPoints[spawnid].position);
-            Debug.Log("VaokzalGuy teleported");
+            //levelController.TeleportVokzalGuy(Vector3.zero);
+            Debug.Log($"VaokzalGuy teleported");
         }
         else if (value < 70 && value > 30)
         {
-            int spawnid = Random.Range(0, VokzalGuySpawnPoints.Length);
+            int spawnid = UnityEngine.Random.Range(0, VokzalGuySpawnPoints.Length);
             levelController.SpawnScarySound(VokzalGuySpawnPoints[spawnid].position);
             //Debug.Log("ScarySound spawned");
         }

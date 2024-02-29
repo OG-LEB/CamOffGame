@@ -1,5 +1,6 @@
 using System.Collections;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -10,6 +11,7 @@ public class VokzalGuyScript : MonoBehaviour
     private LevelController _LevelController;
     [SerializeField] private SoundController _SoundController;
     private VokzalGuyAnimationController _AnimationController;
+    [SerializeField] private VokzalGuyVoiceScript _VoiceScript;
     [Space]
     [Header("Settings")]
     [SerializeField] private float WalkSpeed;
@@ -28,20 +30,21 @@ public class VokzalGuyScript : MonoBehaviour
     [SerializeField] private Transform[] PatrolPoints;
     [SerializeField] private Transform currentPatrolPoint;
     [SerializeField] private Transform previousPatrolPoint;
+    [SerializeField] private Vector3 chasePlayerPosition;
     [SerializeField] private bool Patrol;
+    [SerializeField] private bool findingNewPatrolPoint = false;
     [Header("Settings Scene")]
     [SerializeField] private Transform Player;
-
+    
+    
 
     public bool GetSeePlayerState() { return SeePlayer; }
     private void Start()
     {
-        //SpriteController = GetComponent<VokzalGuySpriteController>();
         characterController = GetComponent<CharacterController>();
         navMesh = GetComponent<NavMeshAgent>();
         walk = false;
         currentSpeed = WalkSpeed;
-        //SpriteController.UpdateSpeedValue(currentSpeed / WalkSpeed);
         _LevelController = LevelController.GetInstance();
         _AnimationController = GetComponent<VokzalGuyAnimationController>();
     }
@@ -62,6 +65,7 @@ public class VokzalGuyScript : MonoBehaviour
             }
         }
         navMesh.destination = currentPatrolPoint.position;
+        findingNewPatrolPoint = false;
     }
     private void FixedUpdate()
     {
@@ -71,29 +75,31 @@ public class VokzalGuyScript : MonoBehaviour
             if (SeePlayer)
             {
                 navMesh.destination = Player.position;
+                chasePlayerPosition = Player.position;
                 Patrol = false;
             }
             if (Patrol)
             {
+                Debug.Log("Patrol area");
                 currentSpeed = PatrolSpeed;
-                if (currentPatrolPoint == null || navMesh.remainingDistance < 0.5f)
+                if ((currentPatrolPoint == null || Vector3.Distance(transform.position, currentPatrolPoint.position) < 1f) && !findingNewPatrolPoint)
                 {
+                    findingNewPatrolPoint = true;
                     NewPatrolPoint();
                 }
 
             }
             if (walk && !isGetShot)
             {
-                if (navMesh.remainingDistance < 0.5f && !SeePlayer)
+                if (Vector3.Distance(transform.position, chasePlayerPosition) < 2.5f && !SeePlayer)
                 {
-                    //SpriteController.StopWalk();
+                    Debug.Log("Start Checking");
                     walk = false;
                     StartCoroutine(CheckArea());
                 }
                 if (Vector3.Distance(transform.position, Player.position) <= 3f && SeePlayer)
                 {
                     walk = false;
-                    //SpriteController.StopWalk();
                     navMesh.isStopped = true;
                     StartCoroutine(Hit());
                 }
@@ -106,16 +112,12 @@ public class VokzalGuyScript : MonoBehaviour
                 }
                 if (Vector3.Distance(transform.position, Player.position) > 3f && SeePlayer)
                 {
-                    //SpriteController.StartWalk();
                     walk = true;
-                    //navMesh.Resume();
                     navMesh.isStopped = false;
                     StopAllCoroutines();
                     currentSpeed = WalkSpeed;
-                    //Debug.Log("Continue...");
                 }
             }
-            //SpriteController.UpdateSpeedValue(currentSpeed / WalkSpeed);
         }
 
     }
@@ -126,10 +128,9 @@ public class VokzalGuyScript : MonoBehaviour
             walk = true;
             SeePlayer = true;
             _AnimationController.UpdateChasingBool(true);
-            //SpriteController.StartWalk();
             StopAllCoroutines();
             _SoundController.StartChaseSound();
-            //Debug.Log("Player on trigger");
+            _VoiceScript.StartTalking();
         }
     }
     private void OnTriggerExit(Collider col)
@@ -137,21 +138,16 @@ public class VokzalGuyScript : MonoBehaviour
         if (col.CompareTag("Player"))
         {
             SeePlayer = false;
-            //Debug.Log("Player goes away");
+            _VoiceScript.StopTalking();
         }
     }
     public void StartMotion()
     {
         walk = true;
         Patrol = true;
+        if (_AnimationController == null)
+            _AnimationController = GetComponent<VokzalGuyAnimationController>();
         _AnimationController.UpdateChasingBool(false);
-        //SeePlayer = true;
-        //SpriteController.StartAnimation();
-        //SpriteController.StartWalk();
-    }
-    public void Dissapear()
-    {
-        //SpriteController.StopAnimation();
     }
     public void GetShot()
     {
@@ -163,23 +159,16 @@ public class VokzalGuyScript : MonoBehaviour
     {
         isGetShot = true;
         currentSpeed = GetShotSpeed;
-        //SpriteController.UpdateSpeedValue(currentSpeed / Speed);
-        //SpriteController.StopAnimation();
         yield return new WaitForSeconds(GetShotTime);
-        //SpriteController.StartAnimation();
         isGetShot = false;
-        //SpriteController.StartAnimation(); // Fix
         while (currentSpeed < WalkSpeed)
         {
-            //SpriteController.UpdateSpeedValue(currentSpeed / WalkSpeed);
             currentSpeed += SpeedRegenerationStep;
         }
         currentSpeed = WalkSpeed;
-        //SpriteController.UpdateSpeedValue(currentSpeed / WalkSpeed);
         if (Vector3.Distance(transform.position, Player.position) <= 3f && SeePlayer)
         {
             walk = false;
-            //SpriteController.StopWalk();
             navMesh.isStopped = true;
             StopAllCoroutines();
             StartCoroutine(Hit());
@@ -189,11 +178,10 @@ public class VokzalGuyScript : MonoBehaviour
     {
         _SoundController.StartExploreSound();
         _AnimationController.Check();
-        yield return new WaitForSeconds(CheckTime);
-        //LevelController.GetInstance().DisappearVokzalGuy();
-        //Continue
-        Patrol = true;
         _AnimationController.UpdateChasingBool(false);
+        yield return new WaitForSeconds(CheckTime);
+        Patrol = true;
+        NewPatrolPoint();
     }
     private IEnumerator Hit()
     {
@@ -203,11 +191,7 @@ public class VokzalGuyScript : MonoBehaviour
         if (Vector3.Distance(transform.position, Player.position) <= 3f && SeePlayer)
         {
             walk = false;
-            //SpriteController.StopWalk();
-            //navMesh.Stop();
             navMesh.isStopped = true;
-            //Debug.Log("Be ready for hit!");
-            //Cc
             StopAllCoroutines();
             StartCoroutine(Hit());
         }

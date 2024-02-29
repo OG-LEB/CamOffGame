@@ -34,6 +34,8 @@ public class Note : MonoBehaviour
         id = 0;
         //colorFadeVal = 0;
         scaleFadeVal = 0;
+        if (mesh == null)
+            mesh = GetComponentInChildren<MeshRenderer>();
         mesh.materials[1].color = new Color(1, 1, 1, 1);
         mesh.materials[1].SetFloat("_Scale", 0);
         fadeout = false;

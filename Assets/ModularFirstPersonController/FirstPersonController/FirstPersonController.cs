@@ -49,6 +49,7 @@ public class FirstPersonController : MonoBehaviour
     [SerializeField] private float sprintStaminaStep;
     [SerializeField] private float sprintStaminaRegenerationStep;
     [SerializeField] private bool CanSprint;
+    private bool wKey = false;
 
     private float GravityForce = -9.81f;
     private float VectorYVelocity = 0f;
@@ -144,6 +145,15 @@ public class FirstPersonController : MonoBehaviour
     {
         if (!levelController.GetPauseState())
         {
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                wKey = true;
+            }
+            if (Input.GetKeyUp(KeyCode.W))
+            {
+                wKey = false;
+            }
+
             cameraCanMove = true;
             playerCanMove = true;
 
@@ -200,32 +210,6 @@ public class FirstPersonController : MonoBehaviour
                 HeadBob();
             }
 
-            //WalkSound
-            //if (isWalking)
-            //{
-            //    if (!startedWalkSound)
-            //    {
-            //        _MovementSound.StartSound();
-            //        startedWalkSound = true;
-            //    }
-
-            //    if (isSprinting)
-            //    {
-            //        //Sprint
-            //        _MovementSound.UpdateWalkBool(false);
-            //    }
-            //    else
-            //    {
-            //        //WalkSituation
-            //        _MovementSound.UpdateWalkBool(true);
-            //    }
-            //}
-            //else
-            //{
-            //    //Stop
-            //    _MovementSound.StopSound();
-            //    startedWalkSound = false;
-            //}
         }
         else
         {
@@ -254,9 +238,6 @@ public class FirstPersonController : MonoBehaviour
 
             Vector3 targetVelocity = new Vector3(Input.GetAxis("Horizontal"), VectorYVelocity, Input.GetAxis("Vertical"));
 
-            // Checks if player is walking and isGrounded
-            // Will allow head bob
-            //if (targetVelocity.x != 0 || targetVelocity.z != 0 && isGrounded)
             if (targetVelocity.x != 0 || targetVelocity.z != 0 )
             {
                 isWalking = true;
@@ -266,13 +247,10 @@ public class FirstPersonController : MonoBehaviour
                 isWalking = false;
             }
 
-            // All movement calculations shile sprint is active
-            if (enableSprint && Input.GetKey(sprintKey) && CanSprint)
+            if (enableSprint && Input.GetKey(sprintKey) && CanSprint && wKey)
             {
                 targetVelocity = transform.TransformDirection(targetVelocity) * sprintSpeed;
-                //Debug.Log("Sprint");
-                // Apply a force that attempts to reach our target velocity
-                //Vector3 velocity = rb.velocity;
+
                 Vector3 velocity = characterController.velocity;
                 Vector3 velocityChange = (targetVelocity - velocity);
                 velocityChange.x = Mathf.Clamp(velocityChange.x, -maxVelocityChange, maxVelocityChange);
@@ -285,10 +263,6 @@ public class FirstPersonController : MonoBehaviour
                 {
                     isSprinting = true;
 
-                    //if (hideBarWhenFull && !unlimitedSprint)
-                    //{
-                    //    sprintBarCG.alpha += 5 * Time.deltaTime;
-                    //}
                 }
                 if (sprintStamina > 0)
                 {
@@ -303,7 +277,6 @@ public class FirstPersonController : MonoBehaviour
                     }
                 }
 
-                //rb.AddForce(velocityChange, ForceMode.VelocityChange);
                 characterController.Move(targetVelocity * Time.deltaTime);
             }
             // All movement calculations while walking
