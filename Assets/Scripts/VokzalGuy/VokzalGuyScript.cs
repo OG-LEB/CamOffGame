@@ -80,7 +80,7 @@ public class VokzalGuyScript : MonoBehaviour
             }
             if (Patrol)
             {
-                Debug.Log("Patrol area");
+                //Debug.Log("Patrol area");
                 currentSpeed = PatrolSpeed;
                 if ((currentPatrolPoint == null || Vector3.Distance(transform.position, currentPatrolPoint.position) < 1f) && !findingNewPatrolPoint)
                 {
@@ -93,7 +93,7 @@ public class VokzalGuyScript : MonoBehaviour
             {
                 if (Vector3.Distance(transform.position, chasePlayerPosition) < 2.5f && !SeePlayer)
                 {
-                    Debug.Log("Start Checking");
+                    //Debug.Log("Start Checking");
                     walk = false;
                     StartCoroutine(CheckArea());
                 }

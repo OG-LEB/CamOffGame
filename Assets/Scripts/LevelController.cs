@@ -284,7 +284,7 @@ public class LevelController : MonoBehaviour
             VokzalGuy.transform.position = VokzalGuySpawnPoints[Random.Range(0, VokzalGuySpawnPoints.Length)].position;
             VokzalGuy.SetActive(true);
             VokzalGuy.GetComponent<VokzalGuyScript>().StartMotion();
-            Debug.Log("Spawned vokzalGuy");
+            //Debug.Log("Spawned vokzalGuy");
             VokzalGuy.GetComponent<VokzalGuyScript>().Restart();
         }
     }

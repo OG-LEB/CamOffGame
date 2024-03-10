@@ -8,5 +8,5 @@ public class VokzalGuyAnimationController : MonoBehaviour
     public void Punch() { animator.SetTrigger("Punch"); }
     public void Check() { animator.SetTrigger("Checking"); }
     public void Flash() { animator.SetTrigger("Flash"); }
-    public void Restart() { animator.SetTrigger("Restart");  Debug.Log("Restart anim"); }
+    public void Restart() { animator.SetTrigger("Restart"); }
 }

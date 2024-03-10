@@ -107,12 +107,12 @@ public class FilmObject : MonoBehaviour
     {
         int value = UnityEngine.Random.Range(0, 100);
         //if (value >= 70 && !levelController.GetVokzalGuySeePlayerState())
-        if (value >= 0 && !levelController.GetVokzalGuySeePlayerState() && levelController.GetFilmObjectsCount() > 1)
+        if (value >= 70 && !levelController.GetVokzalGuySeePlayerState() && levelController.GetFilmObjectsCount() > 1)
         {
             int spawnid = UnityEngine.Random.Range(0, VokzalGuySpawnPoints.Length);
             levelController.TeleportVokzalGuy(VokzalGuySpawnPoints[spawnid].position);
             //levelController.TeleportVokzalGuy(Vector3.zero);
-            Debug.Log($"VaokzalGuy teleported");
+            //Debug.Log($"VaokzalGuy teleported");
         }
         else if (value < 70 && value > 30)
         {
