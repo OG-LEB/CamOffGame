@@ -118,14 +118,23 @@ public class LevelController : MonoBehaviour
                 PauseButton();
             }
             RaycastHit hit;
-            if (Physics.Raycast(PlayerCamera.transform.position, PlayerCamera.transform.forward, out hit, 7))
+            Debug.DrawRay(PlayerCamera.transform.position, PlayerCamera.transform.forward * 7, Color.yellow);
+            if (Physics.Raycast(PlayerCamera.transform.position, PlayerCamera.transform.forward, out hit, 5))
             {
                 if (hit.transform.CompareTag("Note"))
                 {
-                    NoteESign.SetActive(true);
-                    if (Input.GetKeyDown(KeyCode.E))
+                    float distanceToNote = Vector3.Distance(PlayerCamera.transform.position, hit.transform.position);
+                    if (distanceToNote <= 5)
                     {
-                        hit.transform.GetComponent<Note>().Open();
+                        NoteESign.SetActive(true);
+                        if (Input.GetKeyDown(KeyCode.E))
+                        {
+                            hit.transform.GetComponent<Note>().Open();
+                        }
+                    }
+                    else
+                    {
+                        NoteESign.SetActive(false);
                     }
                 }
                 else
@@ -141,10 +150,7 @@ public class LevelController : MonoBehaviour
             {
                 _CameraZoom.ZoomDown();
             }
-            //if (Input.GetKeyDown(KeyCode.F))
-            //{
-            //    EndGame();
-            //}
+
         }
         else if (CurrentGameState == GameState.pause && isNoteOpen && (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.E)))
         {
@@ -305,15 +311,9 @@ public class LevelController : MonoBehaviour
         agent.gameObject.SetActive(false);
         VokzalGuy.transform.position = position;
         agent.gameObject.SetActive(true);
-        //agent.isStopped = false;
+        VokzalGuy.GetComponent<VokzalGuyScript>().TeleportationPlayerDetection();
     }
-    //public void DisappearVokzalGuy()
-    //{
-    //    VokzalGuy.GetComponent<VokzalGuyScript>().Dissapear();
-    //    VokzalGuy.SetActive(false);
-    //    //VokzalGuySpawned = false;
 
-    //}
     public void HitPlayer()
     {
         //Player.GetComponent<PlayerMovement>().Hit();
