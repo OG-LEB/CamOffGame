@@ -97,7 +97,11 @@ public class FilmObject : MonoBehaviour
         {
             float distance = Vector3.Distance(transform.position, playerTransform.position);
             float procent = distance / GetComponent<SphereCollider>().radius;
-            colorFadeVal = 0.25f + (1 - (1 * procent));
+            colorFadeVal = (1 - (1 * procent));
+            if (colorFadeVal < 0.25f)
+            {
+                colorFadeVal = 0.25f;
+            }
             scaleFadeVal = 1.1f + 0.1f * (1 * procent);
 
             fadeout = true;

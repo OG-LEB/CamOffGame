@@ -40,7 +40,7 @@ public class SoundController : MonoBehaviour
         }
         foreach (var item in PlaySoundTracks)
         {
-            item.volume = 0.1f;
+            item.volume = 0.5f;
             item.pitch = 0.85f;
         }
     }
@@ -59,7 +59,7 @@ public class SoundController : MonoBehaviour
         }
         foreach (var item in PlaySoundTracks)
         {
-            item.volume = 0.3f;
+            item.volume = 1f;
             item.pitch = 1f;
         }
     }
@@ -85,37 +85,37 @@ public class SoundController : MonoBehaviour
     }
     public void PlayMainMenuSoundTrack()
     {
-        //MainMenuSountrack.Play();
+        MainMenuSountrack.Play();
     }
     public void StopMainMenuSoundTrack()
     {
-        //MainMenuSountrack.Stop();
+        MainMenuSountrack.Stop();
     }
     public void StartExploreSound()
     {
-        //if (!ExploreSountrack.isPlaying)
-        //{
-        //    ChaseSountrack.Pause();
-        //    ExploreSountrack.Play();
-        //}
+        if (!ExploreSountrack.isPlaying)
+        {
+            ChaseSountrack.Stop();
+            ExploreSountrack.Play();
+        }
         ChaseSountrack.Pause();
     }
     public void StartChaseSound()
     {
         if (!ChaseSountrack.isPlaying)
         {
-            //    ExploreSountrack.Pause();
+            ExploreSountrack.Stop();
             ChaseSountrack.Play();
         }
     }
     public void DisablePlaySoundTrack()
     {
-        //ExploreSountrack.Pause();
-        //ChaseSountrack.Pause();
+        ExploreSountrack.Stop();
+        ChaseSountrack.Stop();
     }
     public void EndGameCutScene()
     {
-        //ExploreSountrack.Stop();
-        //ChaseSountrack.Stop();
+        ExploreSountrack.Stop();
+        ChaseSountrack.Stop();
     }
 }

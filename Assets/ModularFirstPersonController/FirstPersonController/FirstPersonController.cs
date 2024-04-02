@@ -371,5 +371,9 @@ public class FirstPersonController : MonoBehaviour
         Vector3 pushDirection = VokzalGuyTransform.right * 1 + VokzalGuyTransform.forward * PushBackForce;
         characterController.Move(pushDirection);
     }
+    public void SetCameraSensivity(float value) 
+    {
+        mouseSensitivity = value;
+    }
 }
 

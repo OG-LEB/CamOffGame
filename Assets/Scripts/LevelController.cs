@@ -18,6 +18,7 @@ public class LevelController : MonoBehaviour
     [SerializeField] private PlayUIController _PlayUIController;
     //[SerializeField] private PlayerCameraRotation _PlayerCameraRotation;
     [SerializeField] private CameraZoom _CameraZoom;
+    [SerializeField] private PauseMenuController pauseMenuController;
 
     [Space]
     [Header("Camera")]
@@ -220,6 +221,8 @@ public class LevelController : MonoBehaviour
                         Cursor.lockState = CursorLockMode.Confined;
                         soundController.PauseSounds();
                         canWeUnlockPauseByTab = true;
+                        pauseMenuController.OpenPauseWindow();
+
                         break;
                     }
             }

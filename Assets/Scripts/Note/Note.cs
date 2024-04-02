@@ -67,7 +67,7 @@ public class Note : MonoBehaviour
         float distance = Vector3.Distance(transform.position, PlayerTransform.position);
         float procent = distance / GetComponentInChildren<SphereCollider>().radius;
         //colorFadeVal = 0.25f + (1 - (1 * procent));
-        scaleFadeVal = 1.0f + 0.15f * (1 * procent);
+        scaleFadeVal = 1.0f + 0.3f * (1 * procent);
         fadeout = true;
     }
 
