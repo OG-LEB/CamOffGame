@@ -55,6 +55,10 @@ public class CameraShootingScript : MonoBehaviour
             {
                 hit.transform.GetComponent<FilmObject>().Film();
             }
+            if (hit.transform.CompareTag("dawg"))
+            {
+                hit.transform.GetComponent<DawgPoster>().PlayDawg();
+            }
         }
     }
     private void FixedUpdate()

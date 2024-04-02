@@ -103,8 +103,6 @@ public class VokzalGuyScript : MonoBehaviour
                         Chase = true;
                         _AnimationController.UpdateChasingBool(true);
                         _SoundController.StartChaseSound();
-                        //StopAllCoroutines();//
-                        //HittingPlayer = false;
                     }
                     //if (!isTalking)
                     //{
@@ -131,7 +129,7 @@ public class VokzalGuyScript : MonoBehaviour
                     findingNewPatrolPoint = true;
                     NewPatrolPoint();
                 }
-                Debug.Log("Patrol Area");
+                //Debug.Log("Patrol Area");
             }
             //Погоня
             if (Chase && !isGetShot && !HittingPlayer)
@@ -143,7 +141,7 @@ public class VokzalGuyScript : MonoBehaviour
                     Chase = false;
                     _AnimationController.UpdateChasingBool(false);
                     StartCoroutine(CheckArea());
-                    Debug.Log("Checking Area");
+                    //Debug.Log("Checking Area");
                 }
                 //Если мы рядом с игроком то бьём его
                 if (Vector3.Distance(transform.position, Player.position) <= 3f && SeePlayer && !HittingPlayer)
@@ -154,17 +152,11 @@ public class VokzalGuyScript : MonoBehaviour
                     _AnimationController.UpdateChasingBool(false);
                     navMesh.isStopped = true;
                     StartCoroutine(Hit());
-                    Debug.Log("Hitting player");
+                    //Debug.Log("Hitting player");
                 }
                 //Если игрок в зоне видимости, но не рядом
                 if (Vector3.Distance(transform.position, Player.position) > 3f && SeePlayer)
                 {
-                    //if (!Chase)
-                    //{
-                    //    Chase = true;
-                    //    _AnimationController.UpdateChasingBool(true);
-                    //    StopAllCoroutines();//
-                    //}
                     if (!Chase)
                     {
                         Chase = true;
@@ -174,7 +166,7 @@ public class VokzalGuyScript : MonoBehaviour
                     navMesh.isStopped = false;
                     StopAllCoroutines();
                     currentSpeed = ChaseSpeed;
-                    Debug.Log("Chasing player");
+                    //Debug.Log("Chasing player");
                 }
             }
             //else if (!isGetShot && !HittingPlayer)
@@ -214,7 +206,7 @@ public class VokzalGuyScript : MonoBehaviour
         StartCoroutine(GetShotC());
         _AnimationController.Flash();
         Console.Clear();
-        Debug.Log("Get Shot");
+        //Debug.Log("Get Shot");
     }
     private IEnumerator GetShotC()
     {
@@ -245,11 +237,11 @@ public class VokzalGuyScript : MonoBehaviour
     }
     private IEnumerator Hit()
     {
-        Debug.Log("HIT Ienumenator start");
+        //Debug.Log("HIT Ienumenator start");
         _AnimationController.Punch();
         yield return new WaitForSeconds(TimeBeforeHit);
         LevelController.GetInstance().HitPlayer();
-        Debug.Log("Player hitted!!!");
+        //Debug.Log("Player hitted!!!");
         HittingPlayer = false;
         navMesh.isStopped = false;
     }

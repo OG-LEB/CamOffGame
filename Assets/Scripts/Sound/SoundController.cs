@@ -40,7 +40,7 @@ public class SoundController : MonoBehaviour
         }
         foreach (var item in PlaySoundTracks)
         {
-            item.volume = 0.5f;
+            item.volume = 0.2f;
             item.pitch = 0.85f;
         }
     }
@@ -59,7 +59,7 @@ public class SoundController : MonoBehaviour
         }
         foreach (var item in PlaySoundTracks)
         {
-            item.volume = 1f;
+            item.volume = 0.5f;
             item.pitch = 1f;
         }
     }

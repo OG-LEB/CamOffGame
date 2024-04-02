@@ -18,12 +18,13 @@ public class FilmObject : MonoBehaviour
     [SerializeField] private Transform[] VokzalGuySpawnPoints;
     private LocationScanSystem locationScanSystem;
     private LevelController levelController;
+    [SerializeField] private int OutlineMaterialId;
 
     private void Start()
     {
         mesh = GetComponent<MeshRenderer>();
-        mesh.materials[1].color = new Color(0, 1, 0, 1);
-        mesh.materials[1].SetFloat("_Scale", 0);
+        mesh.materials[OutlineMaterialId].color = new Color(0, 1, 0, 1);
+        mesh.materials[OutlineMaterialId].SetFloat("_Scale", 0);
         locationScanSystem = LocationScanSystem.GetInstance();
         levelController = LevelController.GetInstance();
     }
@@ -35,8 +36,8 @@ public class FilmObject : MonoBehaviour
             {
                 LevelController.GetInstance().NewFilmObject();
                 isFilmedAlready = true;
-                mesh.materials[1].color = new Color(0, 0, 0, 0);
-                mesh.materials[1].SetFloat("_Scale", 0);
+                mesh.materials[OutlineMaterialId].color = new Color(0, 0, 0, 0);
+                mesh.materials[OutlineMaterialId].SetFloat("_Scale", 0);
                 SpawnVokzalGuy();
             }
         }
@@ -63,8 +64,8 @@ public class FilmObject : MonoBehaviour
     {
         if (fadeout)
         {
-            mesh.materials[1].color = new Color(0, colorFadeVal, 0, 1);
-            mesh.materials[1].SetFloat("_Scale", scaleFadeVal);
+            mesh.materials[OutlineMaterialId].color = new Color(0, colorFadeVal, 0, 1);
+            mesh.materials[OutlineMaterialId].SetFloat("_Scale", scaleFadeVal);
             colorFadeVal -= 0.001f;
             scaleFadeVal -= 0.001f;
             if (colorFadeVal <= 0 && scaleFadeVal <= 0)
@@ -75,8 +76,8 @@ public class FilmObject : MonoBehaviour
         if (isFilmedAlready)
         {
             fadeout = false;
-            mesh.materials[1].color = new Color(0, 0, 0, 0);
-            mesh.materials[1].SetFloat("_Scale", 0);
+            mesh.materials[OutlineMaterialId].color = new Color(0, 0, 0, 0);
+            mesh.materials[OutlineMaterialId].SetFloat("_Scale", 0);
         }
     }
     public void Restart()
@@ -87,8 +88,8 @@ public class FilmObject : MonoBehaviour
         scaleFadeVal = 0;
         if (mesh == null)
             mesh = GetComponent<MeshRenderer>();
-        mesh.materials[1].color = new Color(0, 1, 0, 1);
-        mesh.materials[1].SetFloat("_Scale", 0);
+        mesh.materials[OutlineMaterialId].color = new Color(0, 1, 0, 1);
+        mesh.materials[OutlineMaterialId].SetFloat("_Scale", 0);
         fadeout = false;
     }
     public void Scan()
