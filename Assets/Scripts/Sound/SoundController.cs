@@ -1,21 +1,34 @@
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class SoundController : MonoBehaviour
 {
+    [Header("Mixer")]
+    [SerializeField] private AudioMixer mixer;
+    [Space]
+    [Header("Settings")]
     [SerializeField] private AudioSource[] AmbientSounds;
     [SerializeField] private AudioSource[] GameSounds;
     [SerializeField] private AudioSource[] PlaySoundTracks;
     [SerializeField] private bool[] GameSoundPlayingStateById;
+    [SerializeField] private float GameSoundsVolume = 1;
+    [SerializeField] private float MusicVolume = 1;
+
+    [Space]
     [Header("Another Sounds")]
     [SerializeField] private AudioSource UISound;
     [SerializeField] private AudioSource CollectSound;
     [SerializeField] private AudioSource GlassBreakSound;
     [SerializeField] private AudioSource NoteSound;
     [SerializeField] private AudioSource CameraZoomSound;
+    [SerializeField] private AudioSource FlashDone;
+    [Space]
     [Header("SounTrack")]
     [SerializeField] private AudioSource MainMenuSountrack;
     [SerializeField] private AudioSource ExploreSountrack;
     [SerializeField] private AudioSource ChaseSountrack;
+    [SerializeField] private AudioClip Chase_1;
+    [SerializeField] private AudioClip Chase_2;
     private void Start()
     {
         GameSoundPlayingStateById = new bool[GameSounds.Length];
@@ -40,7 +53,7 @@ public class SoundController : MonoBehaviour
         }
         foreach (var item in PlaySoundTracks)
         {
-            item.volume = 0.2f;
+            //item.volume = 0.2f;
             item.pitch = 0.85f;
         }
     }
@@ -59,7 +72,7 @@ public class SoundController : MonoBehaviour
         }
         foreach (var item in PlaySoundTracks)
         {
-            item.volume = 0.5f;
+            //item.volume = 1f;
             item.pitch = 1f;
         }
     }
@@ -117,5 +130,37 @@ public class SoundController : MonoBehaviour
     {
         ExploreSountrack.Stop();
         ChaseSountrack.Stop();
+    }
+    public void ChangeGameSoundsVolumeFromSlider(float SliderValue) 
+    {
+        GameSoundsVolume = SliderValue;
+        mixer.SetFloat("GameSoundsVolume", Mathf.Lerp(-80, 0, GameSoundsVolume));
+    }
+    public void ChangerMisucVolumeFromSLider(float SliderValue) 
+    {
+        MusicVolume = SliderValue;
+        mixer.SetFloat("MusicVolume", Mathf.Lerp(-80, 0, MusicVolume));
+    }
+    public float GetGameSoundsVolume() { return GameSoundsVolume; }
+    public float GetMusicVolume() { return MusicVolume; }
+    public void PlayFlashDoneSound() 
+    {
+        FlashDone.Play();
+    }
+    public void Restart() 
+    {
+        foreach (var item in PlaySoundTracks)
+        {
+            item.pitch = 1f;
+        }
+    }
+    public void SetupDefaultChase() 
+    {
+        ChaseSountrack.clip = Chase_1;
+    }
+    public void SetupBossFightChase()
+    {
+        ChaseSountrack.clip = Chase_2;
+        StartChaseSound();
     }
 }

@@ -41,9 +41,17 @@ public class LevelController : MonoBehaviour
     [SerializeField] private ScaryLocationSound _ScarySound;
     private bool isGameOver;
     private bool canWeUnlockPauseByTab;
-    [SerializeField] private GameObject EndGameTrigger;
     [SerializeField] private Transform[] VokzalGuySpawnPoints;
-
+    [Space]
+    [Header("EndGame")]
+    [SerializeField] private GameObject EndGameTrigger;
+    [SerializeField] private GameObject EndGameKalitkaWithMaterial;
+    [SerializeField] private GameObject BossFightTrigger;
+    [SerializeField] private GameObject SpaceText;
+    private bool EndCutScene = false;
+    [SerializeField] private GameObject BossFightWall;
+    [SerializeField] private Transform BossFightVokzalGuyTeleportPosition;
+    [SerializeField] private GameObject BossFightCameraEffect;
     [Space]
     [Header("CameraScars")]
     [SerializeField] private GameObject CameraScar_0;
@@ -56,11 +64,8 @@ public class LevelController : MonoBehaviour
     [Header("Notes")]
     [SerializeField] private bool isNoteOpen = false;
     [SerializeField] private GameObject NoteESign;
-    [Space]
-    [Header("End game CutScene")]
-    //[SerializeField] private VideoPlayer _videoPlayer;
-    [SerializeField] private GameObject SpaceText;
-    private bool EndCutScene = false;
+
+
     public enum GameState { playing, pause }
     //public int GetFillObjectsAmount() { return FilmObjects.Length; }
     public bool GetPauseState()
@@ -106,9 +111,14 @@ public class LevelController : MonoBehaviour
         CurrentGameState = GameState.pause;
         _CameraZoom.Restart();
         EndGameTrigger.SetActive(false);
+        BossFightTrigger.SetActive(false);
         EndCutScene = false;
         soundController.PlayMainMenuSoundTrack();
         Player.GetComponent<CameraShootingScript>().Restart();
+        EndGameKalitkaWithMaterial.GetComponent<MeshRenderer>().materials[1].SetFloat("_Scale", 1);
+        BossFightWall.SetActive(false);
+        soundController.SetupDefaultChase();
+        BossFightCameraEffect.SetActive(false);
     }
     private void Update()
     {
@@ -119,7 +129,7 @@ public class LevelController : MonoBehaviour
                 PauseButton();
             }
             RaycastHit hit;
-            Debug.DrawRay(PlayerCamera.transform.position, PlayerCamera.transform.forward * 7, Color.yellow);
+            Debug.DrawRay(PlayerCamera.transform.position, PlayerCamera.transform.forward * 5, Color.white);
             if (Physics.Raycast(PlayerCamera.transform.position, PlayerCamera.transform.forward, out hit, 5))
             {
                 if (hit.transform.CompareTag("Note"))
@@ -142,6 +152,10 @@ public class LevelController : MonoBehaviour
                 {
                     NoteESign.SetActive(false);
                 }
+            }
+            else
+            {
+                NoteESign.SetActive(false);
             }
             if (Input.mouseScrollDelta.y > 0.1f)
             {
@@ -256,6 +270,7 @@ public class LevelController : MonoBehaviour
         windowController.GameOverSetActiveState(false);
         soundController.PauseSounds();
         soundController.EndGameCutScene();
+        soundController.Restart();
         //Player.GetComponent<PlayerMovement>().RestartStamina();
         Player.GetComponent<FirstPersonController>().RestartStamina();
         GameAwake();
@@ -390,7 +405,9 @@ public class LevelController : MonoBehaviour
         if (!EndGameTrigger.activeSelf)
         {
             EndGameTrigger.SetActive(true);
-            Debug.Log("End trigger is on");
+            EndGameKalitkaWithMaterial.GetComponent<MeshRenderer>().materials[1].SetFloat("_Scale", 1.1f);
+            BossFightTrigger.SetActive(true);
+
         }
     }
     public void EndGame()
@@ -410,4 +427,16 @@ public class LevelController : MonoBehaviour
         soundController.EndGameCutScene();
     }
     public void LoadNocLip() { SceneManager.LoadScene(1); }
+    public void BossFight(bool isChasing)
+    {
+        if (!isChasing)
+        {
+            BossFightWall.SetActive(true);
+            TeleportVokzalGuy(BossFightVokzalGuyTeleportPosition.position);
+        }
+        soundController.SetupBossFightChase();
+        BossFightCameraEffect.SetActive(true);
+        _PlayUIController.BossFightText();
+        Debug.Log("BossFightTrigger");
+    }
 }

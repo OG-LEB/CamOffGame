@@ -47,7 +47,10 @@ public class Note : MonoBehaviour
             //mesh.materials[1].color = new Color(0, colorFadeVal, 0, 1);
             mesh.materials[1].SetFloat("_Scale", scaleFadeVal);
             //colorFadeVal -= 0.001f;
-            scaleFadeVal -= 0.001f;
+            if (scaleFadeVal > 1)
+                scaleFadeVal -= 0.001f;
+            else
+                scaleFadeVal = 1f;
             //if (colorFadeVal <= 0 && scaleFadeVal <= 0)
             //{
             //    fadeout = false;
@@ -58,7 +61,7 @@ public class Note : MonoBehaviour
             }
         }
     }
-    public void Scan() 
+    public void Scan()
     {
         if (PlayerTransform == null)
         {
@@ -67,7 +70,8 @@ public class Note : MonoBehaviour
         float distance = Vector3.Distance(transform.position, PlayerTransform.position);
         float procent = distance / GetComponentInChildren<SphereCollider>().radius;
         //colorFadeVal = 0.25f + (1 - (1 * procent));
-        scaleFadeVal = 1.0f + 0.3f * (1 * procent);
+        //scaleFadeVal = 1.0f + 0.3f * (1 * procent);
+        scaleFadeVal = 1.1f + 0.1f * (1 * procent);
         fadeout = true;
     }
 

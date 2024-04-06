@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class PlayUIController : MonoBehaviour
 {
+    [SerializeField] private SoundController _SoundController;
     [Header("Objects Counter")]
     [SerializeField] private TextMeshProUGUI ObjectsCounterText;
     [SerializeField] private string ObjectCounterFullTextMessage;
@@ -35,6 +36,7 @@ public class PlayUIController : MonoBehaviour
         if (value == 1f)
         {
             StaminaFlashFullObject.SetActive(false);
+            _SoundController.PlayFlashDoneSound();
         }
     }
     #endregion
@@ -47,6 +49,10 @@ public class PlayUIController : MonoBehaviour
     {
         ObjectsCounterText.text = ObjectCounterFullTextMessage;
         LevelController.GetInstance().TurnOnEndGameTrigger();
+    }
+    public void BossFightText() 
+    {
+        ObjectsCounterText.text = "—œ¿—¿…—ﬂ!";
     }
     #endregion
     public void Restart() 

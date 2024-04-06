@@ -67,7 +67,10 @@ public class FilmObject : MonoBehaviour
             mesh.materials[OutlineMaterialId].color = new Color(0, colorFadeVal, 0, 1);
             mesh.materials[OutlineMaterialId].SetFloat("_Scale", scaleFadeVal);
             colorFadeVal -= 0.001f;
-            scaleFadeVal -= 0.001f;
+            if (scaleFadeVal > 1)
+                scaleFadeVal -= 0.001f;
+            if (scaleFadeVal < 1)
+                scaleFadeVal = 1;
             if (colorFadeVal <= 0 && scaleFadeVal <= 0)
             {
                 fadeout = false;
@@ -115,14 +118,11 @@ public class FilmObject : MonoBehaviour
         {
             int spawnid = UnityEngine.Random.Range(0, VokzalGuySpawnPoints.Length);
             levelController.TeleportVokzalGuy(VokzalGuySpawnPoints[spawnid].position);
-            
-
         }
         else if (value < 70 && value > 30)
         {
             int spawnid = UnityEngine.Random.Range(0, VokzalGuySpawnPoints.Length);
             levelController.SpawnScarySound(VokzalGuySpawnPoints[spawnid].position);
-            //Debug.Log("ScarySound spawned");
         }
 
     }

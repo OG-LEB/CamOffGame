@@ -375,5 +375,6 @@ public class FirstPersonController : MonoBehaviour
     {
         mouseSensitivity = value;
     }
+    public float GetMouseSensivity() { return mouseSensitivity; }
 }
 

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Runtime.CompilerServices;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -87,8 +88,12 @@ public class VokzalGuyScript : MonoBehaviour
                 float distanceToTarget = Vector3.Distance(transform.position, Player.position);
                 Vector3 directionToTarget = (Player.position - transform.position).normalized;
                 //Если рейкаст не сработал
-                if (Physics.Raycast(transform.position + new Vector3(0,1,0), directionToTarget, distanceToTarget, LocationLayer))
+                if (Physics.Raycast(transform.position + new Vector3(0, 1, 0), directionToTarget, distanceToTarget, LocationLayer))
                 {
+                    if (SeePlayer)
+                    {
+                        StartCoroutine(LastSecPathToPlayer());
+                    }
                     SeePlayer = false;
                 }
                 //Если рейкаст сработал
@@ -97,18 +102,23 @@ public class VokzalGuyScript : MonoBehaviour
                     navMesh.destination = Player.position;
                     chasePlayerPosition = Player.position;
                     Patrol = false;
+                    if (!SeePlayer)
+                    {
+                        _VoiceScript.PlayFoundTalk();
+                    }
                     SeePlayer = true;
                     if (!Chase)
                     {
                         Chase = true;
                         _AnimationController.UpdateChasingBool(true);
                         _SoundController.StartChaseSound();
+
                     }
-                    //if (!isTalking)
-                    //{
-                    //    _VoiceScript.StartTalking();
-                    //    isTalking = true;
-                    //}
+                    if (!isTalking)
+                    {
+                        _VoiceScript.StartChaseTalking();
+                        isTalking = true;
+                    }
                 }
                 if (distanceToTarget < 3)
                 {
@@ -118,6 +128,10 @@ public class VokzalGuyScript : MonoBehaviour
             //Если игрок вне зоны видимости то мы его не видим
             else
             {
+                if (SeePlayer)
+                {
+                    StartCoroutine(LastSecPathToPlayer());
+                }
                 SeePlayer = false;
             }
             //Патрулирование
@@ -175,7 +189,17 @@ public class VokzalGuyScript : MonoBehaviour
             //}
 
         }
-
+        IEnumerator LastSecPathToPlayer()
+        {
+            //Debug.Log("Started last sec");
+            for (int i = 0; i < 5; i++)
+            {
+                yield return new WaitForSeconds(0.25f);
+                navMesh.destination = Player.position;
+                chasePlayerPosition = Player.position;
+            }
+            //Debug.Log("End of last sec");
+        }
     }
     private void OnTriggerEnter(Collider col)
     {
@@ -203,6 +227,7 @@ public class VokzalGuyScript : MonoBehaviour
     public void GetShot()
     {
         StopAllCoroutines();
+        _VoiceScript.PlayGetShotTalk();
         StartCoroutine(GetShotC());
         _AnimationController.Flash();
         Console.Clear();
@@ -226,19 +251,22 @@ public class VokzalGuyScript : MonoBehaviour
         _AnimationController.Check();
         Chase = false;
         isTalking = false;
-        _VoiceScript.StopTalking();
+        _VoiceScript.StopChaseTalking();
+        _VoiceScript.PlayLostTalk();
         _AnimationController.UpdateChasingBool(false);
         yield return new WaitForSeconds(CheckTime);
         Patrol = true;
         NewPatrolPoint();
-        _VoiceScript.PlayOneVoice();
+        _VoiceScript.PlayChasingVoice();
         navMesh.isStopped = false;
         _SoundController.StartExploreSound();
+        _VoiceScript.PlayLostTalk();
     }
     private IEnumerator Hit()
     {
         //Debug.Log("HIT Ienumenator start");
         _AnimationController.Punch();
+        _VoiceScript.PlayHitTalk();
         yield return new WaitForSeconds(TimeBeforeHit);
         LevelController.GetInstance().HitPlayer();
         //Debug.Log("Player hitted!!!");
@@ -261,4 +289,5 @@ public class VokzalGuyScript : MonoBehaviour
         chasePlayerPosition = Player.position;
         Patrol = false;
     }
+    public bool GetPatrolBool() { return Patrol; }
 }
