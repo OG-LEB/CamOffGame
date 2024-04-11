@@ -16,7 +16,6 @@ public class LevelController : MonoBehaviour
     [SerializeField] private WindowController windowController;
     [SerializeField] private SoundController soundController;
     [SerializeField] private PlayUIController _PlayUIController;
-    //[SerializeField] private PlayerCameraRotation _PlayerCameraRotation;
     [SerializeField] private CameraZoom _CameraZoom;
     [SerializeField] private PauseMenuController pauseMenuController;
 
@@ -36,7 +35,6 @@ public class LevelController : MonoBehaviour
     [SerializeField] private FilmObject[] FilmObjects;
     [SerializeField] private GameState CurrentGameState;
     [SerializeField] private GameObject VokzalGuy;
-    //private bool VokzalGuySpawned = false;
     [SerializeField] private int Health;
     [SerializeField] private ScaryLocationSound _ScarySound;
     private bool isGameOver;
@@ -52,6 +50,7 @@ public class LevelController : MonoBehaviour
     [SerializeField] private GameObject BossFightWall;
     [SerializeField] private Transform BossFightVokzalGuyTeleportPosition;
     [SerializeField] private GameObject BossFightCameraEffect;
+    [SerializeField] private VideoPlayer _videoPlayer;
     [Space]
     [Header("CameraScars")]
     [SerializeField] private GameObject CameraScar_0;
@@ -178,7 +177,7 @@ public class LevelController : MonoBehaviour
         if (CurrentGameState == GameState.pause && EndCutScene)
         {
             //if (Input.GetKeyDown(KeyCode.Space) && _videoPlayer.frame > 120)
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) && SpaceText.activeSelf)
             {
                 //_videoPlayer.Stop();
                 EndCutScene = false;
@@ -186,18 +185,18 @@ public class LevelController : MonoBehaviour
                 RestartGame();
                 Debug.Log("Stop");
             }
-            //if (_videoPlayer.frame > 120)
-            //{
-            SpaceText.SetActive(true);
-            //}
-            //if (!_videoPlayer.isPlaying && _videoPlayer.frame > 60)
-            //{
-            //    //_videoPlayer.Stop();
-            //    EndCutScene = false;
-            //    windowController.EndGameWinSetActiveState(false);
-            //    RestartGame();
-            //    Debug.Log("End");
-            //}
+            if (_videoPlayer.frame > 120)
+            {
+                SpaceText.SetActive(true);
+            }
+            if (!_videoPlayer.isPlaying && _videoPlayer.frame > 60)
+            {
+                //_videoPlayer.Stop();
+                EndCutScene = false;
+                windowController.EndGameWinSetActiveState(false);
+                RestartGame();
+                Debug.Log("End");
+            }
         }
     }
     public void PauseButton()
@@ -420,7 +419,12 @@ public class LevelController : MonoBehaviour
         windowController.PlayWindowSetActiveState(false);
         windowController.PauseWindowSetActiveState(false);
         windowController.EndGameWinSetActiveState(true);
-        //_videoPlayer.Play();
+
+        //Play CutScene
+        string videoPath = System.IO.Path.Combine(Application.streamingAssetsPath, "EndGameCutScene.mp4");
+        _videoPlayer.url = videoPath;
+        _videoPlayer.Play();
+
         EndCutScene = true;
         SpaceText.SetActive(false);
         soundController.PauseSounds();
@@ -438,5 +442,11 @@ public class LevelController : MonoBehaviour
         BossFightCameraEffect.SetActive(true);
         _PlayUIController.BossFightText();
         Debug.Log("BossFightTrigger");
+    }
+
+    //Test
+    public void SetSevenFilmObjects()
+    {
+        FilmObjectsCounter = 7;
     }
 }
