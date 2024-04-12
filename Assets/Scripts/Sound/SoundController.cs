@@ -143,7 +143,9 @@ public class SoundController : MonoBehaviour
         mixer.SetFloat("MusicVolume", Mathf.Lerp(-80, 0, MusicVolume));
     }
     public float GetGameSoundsVolume() { return GameSoundsVolume; }
+    public void SetGameSoundsVolume(float value) { GameSoundsVolume = value; }
     public float GetMusicVolume() { return MusicVolume; }
+    public void SetMusicVolume(float value) { MusicVolume = value; }
     public void PlayFlashDoneSound() 
     {
         FlashDone.Play();
@@ -168,4 +170,5 @@ public class SoundController : MonoBehaviour
     {
         FenceClosing.Play();
     }
+ 
 }

@@ -6,6 +6,7 @@ public class PauseMenuController : MonoBehaviour
 {
     [Header("Links")]
     [SerializeField] private SoundController _soundController;
+    [SerializeField] private SavingSystem _SavingSystem;
     [Space]
     [Header("UI Elements")]
     //Windows
@@ -41,7 +42,7 @@ public class PauseMenuController : MonoBehaviour
         //GameSoundsVolume
         GameSoundsVolumeSlider.value = _soundController.GetGameSoundsVolume();
         GameSoundsVolumeText.text = GameSoundsVolumeSlider.value.ToString("0.0");
-        //MusicVolume
+        //MusicVolume 
         MusicVolumeSlider.value = _soundController.GetMusicVolume();
         MusicVolumeText.text = MusicVolumeSlider.value.ToString("0.0");
 
@@ -60,15 +61,18 @@ public class PauseMenuController : MonoBehaviour
     {
         playerCameraController.SetCameraSensivity(SensivitySlider.value);
         SensivityValueText.text = SensivitySlider.value.ToString("0.00");
+        _SavingSystem.SaveMouseSensitivity(SensivitySlider.value);
     }
     public void SetGameSoundsVolumeFromSlider()
     {
         _soundController.ChangeGameSoundsVolumeFromSlider(GameSoundsVolumeSlider.value);
         GameSoundsVolumeText.text = GameSoundsVolumeSlider.value.ToString("0.0");
+        _SavingSystem.SaveGameSoundVolume(GameSoundsVolumeSlider.value);
     }
     public void SetMusicVolumeFromSlider() 
     {
         _soundController.ChangerMisucVolumeFromSLider(MusicVolumeSlider.value);
         MusicVolumeText.text = MusicVolumeSlider.value.ToString("0.0");
+        _SavingSystem.SaveMusicSoundVolume(MusicVolumeSlider.value);
     }
 }

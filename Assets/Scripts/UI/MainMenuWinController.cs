@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class MainMenuWinController : MonoBehaviour
 {
+    [Header("Links")]
+    [SerializeField] private SavingSystem _SavingSystem;
     [Header("Settings")]
     [SerializeField] private SoundController _SoundController;
     [SerializeField] private GameObject ButtonsWin;
@@ -55,16 +57,19 @@ public class MainMenuWinController : MonoBehaviour
     {
         playerCameraController.SetCameraSensivity(SensivitySlider.value);
         SensivityValueText.text = SensivitySlider.value.ToString("0.00");
+        _SavingSystem.SaveMouseSensitivity(SensivitySlider.value);
     }
     public void SetGameSoundsVolumeFromSlider()
     {
         _SoundController.ChangeGameSoundsVolumeFromSlider(GameSoundsVolumeSlider.value);
         GameSoundsVolumeText.text = GameSoundsVolumeSlider.value.ToString("0.0");
+        _SavingSystem.SaveGameSoundVolume(GameSoundsVolumeSlider.value);
     }
     public void SetMusicVolumeFromSlider()
     {
         _SoundController.ChangerMisucVolumeFromSLider(MusicVolumeSlider.value);
         MusicVolumeText.text = MusicVolumeSlider.value.ToString("0.0");
+        _SavingSystem.SaveMusicSoundVolume(MusicVolumeSlider.value);
     }
 
 }

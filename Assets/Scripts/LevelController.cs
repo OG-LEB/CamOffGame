@@ -63,10 +63,14 @@ public class LevelController : MonoBehaviour
     [Header("Notes")]
     [SerializeField] private bool isNoteOpen = false;
     [SerializeField] private GameObject NoteESign;
+    [Space]
+    [Header("GameData")]
+    [SerializeField] private SavingSystem _SavingSystem;
+    [SerializeField] private FirstPersonController _firstPersonController;
+    [SerializeField] private SoundController _SoundController;
 
 
     public enum GameState { playing, pause }
-    //public int GetFillObjectsAmount() { return FilmObjects.Length; }
     public bool GetPauseState()
     {
         if (CurrentGameState == GameState.pause)
@@ -118,6 +122,7 @@ public class LevelController : MonoBehaviour
         BossFightWall.SetActive(false);
         soundController.SetupDefaultChase();
         BossFightCameraEffect.SetActive(false);
+        LoadData();
     }
     private void Update()
     {
@@ -444,6 +449,15 @@ public class LevelController : MonoBehaviour
         BossFightCameraEffect.SetActive(true);
         _PlayUIController.BossFightText();
         Debug.Log("BossFightTrigger");
+    }
+    private void LoadData()
+    {
+        //Sensitivity
+        _firstPersonController.mouseSensitivity = _SavingSystem.LoadMouseSensitivity();
+        //Master
+        _SoundController.SetGameSoundsVolume(_SavingSystem.LoadGameSoundVolume());
+        //Music
+        _SoundController.SetMusicVolume(_SavingSystem.LoadMusicSoundVolume());
     }
 
     //Test
