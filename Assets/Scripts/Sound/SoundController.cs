@@ -22,6 +22,7 @@ public class SoundController : MonoBehaviour
     [SerializeField] private AudioSource NoteSound;
     [SerializeField] private AudioSource CameraZoomSound;
     [SerializeField] private AudioSource FlashDone;
+    [SerializeField] private AudioSource FenceClosing;
     [Space]
     [Header("SounTrack")]
     [SerializeField] private AudioSource MainMenuSountrack;
@@ -162,5 +163,9 @@ public class SoundController : MonoBehaviour
     {
         ChaseSountrack.clip = Chase_2;
         StartChaseSound();
+    }
+    public void PlayFenceClosingSound() 
+    {
+        FenceClosing.Play();
     }
 }

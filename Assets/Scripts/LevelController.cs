@@ -243,7 +243,6 @@ public class LevelController : MonoBehaviour
     }
     public void PlayButton()
     {
-        Cursor.lockState = CursorLockMode.Locked;
         UpdateFilmObjectsCounter();
         MainMenuCamera.SetActive(false);
         Player.transform.position = PlayerSpawnPosition.position;
@@ -259,6 +258,9 @@ public class LevelController : MonoBehaviour
         isGameOver = false;
         soundController.StopMainMenuSoundTrack();
         soundController.StartExploreSound();
+        soundController.PlayFlashDoneSound();
+        soundController.PlayFenceClosingSound();
+        Cursor.lockState = CursorLockMode.Locked;
     }
     public void RestartGame()
     {
