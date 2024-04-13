@@ -19,6 +19,7 @@ public class FilmObject : MonoBehaviour
     private LocationScanSystem locationScanSystem;
     private LevelController levelController;
     [SerializeField] private int OutlineMaterialId;
+    private AudioSource sound;
 
     private void Start()
     {
@@ -27,6 +28,7 @@ public class FilmObject : MonoBehaviour
         mesh.materials[OutlineMaterialId].SetFloat("_Scale", 0);
         locationScanSystem = LocationScanSystem.GetInstance();
         levelController = LevelController.GetInstance();
+        sound = GetComponent<AudioSource>();
     }
     public void Film()
     {
@@ -39,6 +41,7 @@ public class FilmObject : MonoBehaviour
                 mesh.materials[OutlineMaterialId].color = new Color(0, 0, 0, 0);
                 mesh.materials[OutlineMaterialId].SetFloat("_Scale", 0);
                 SpawnVokzalGuy();
+                sound.Play();
             }
         }
     }
