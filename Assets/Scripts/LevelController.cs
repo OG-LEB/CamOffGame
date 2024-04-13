@@ -253,6 +253,7 @@ public class LevelController : MonoBehaviour
         Player.transform.position = PlayerSpawnPosition.position;
         Player.transform.rotation = PlayerSpawnPosition.rotation;
         Player.SetActive(true);
+        SpawnVokzalGuy();
         windowController.MainMenuSetState(false);
         windowController.PlayWindowSetActiveState(true);
         soundController.PlayButtonSound();
@@ -293,10 +294,10 @@ public class LevelController : MonoBehaviour
     public void NewFilmObject()
     {
         FilmObjectsCounter++;
-        if (FilmObjectsCounter == 1)
-        {
-            SpawnVokzalGuy();
-        }
+        //if (FilmObjectsCounter == 1)
+        //{
+        //    SpawnVokzalGuy();
+        //}
         soundController.PlayCollectSound();
         if (FilmObjectsCounter >= AmountOfFilmObjects)
         {
@@ -314,7 +315,6 @@ public class LevelController : MonoBehaviour
             VokzalGuy.transform.position = VokzalGuySpawnPoints[Random.Range(0, VokzalGuySpawnPoints.Length)].position;
             VokzalGuy.SetActive(true);
             VokzalGuy.GetComponent<VokzalGuyScript>().StartMotion();
-            //Debug.Log("Spawned vokzalGuy");
             VokzalGuy.GetComponent<VokzalGuyScript>().Restart();
         }
     }
