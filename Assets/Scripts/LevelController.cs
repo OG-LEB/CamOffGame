@@ -455,9 +455,11 @@ public class LevelController : MonoBehaviour
         //Sensitivity
         _firstPersonController.mouseSensitivity = _SavingSystem.LoadMouseSensitivity();
         //Master
-        _SoundController.SetGameSoundsVolume(_SavingSystem.LoadGameSoundVolume());
+        //_SoundController.SetGameSoundsVolume(_SavingSystem.LoadGameSoundVolume());
+        _SoundController.ChangeGameSoundsVolumeFromSlider(_SavingSystem.LoadGameSoundVolume());
         //Music
-        _SoundController.SetMusicVolume(_SavingSystem.LoadMusicSoundVolume());
+        //_SoundController.SetMusicVolume(_SavingSystem.LoadMusicSoundVolume());
+        _SoundController.ChangerMisucVolumeFromSLider(_SavingSystem.LoadMusicSoundVolume());
     }
 
     //Test
