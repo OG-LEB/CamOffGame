@@ -18,7 +18,7 @@ public class LevelController : MonoBehaviour
     [SerializeField] private PlayUIController _PlayUIController;
     [SerializeField] private CameraZoom _CameraZoom;
     [SerializeField] private PauseMenuController pauseMenuController;
-
+    [SerializeField] private MonetisationScript Monetisation;
     [Space]
     [Header("Camera")]
     [SerializeField] private GameObject MainMenuCamera;
@@ -383,6 +383,7 @@ public class LevelController : MonoBehaviour
         isGameOver = true;
         soundController.DisablePlaySoundTrack();
         VokzalGuy.SetActive(false);
+        Monetisation.ShowAd();
     }
     public void OpenNote()
     {
