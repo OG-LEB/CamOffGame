@@ -123,6 +123,7 @@ public class LevelController : MonoBehaviour
         soundController.SetupDefaultChase();
         BossFightCameraEffect.SetActive(false);
         LoadData();
+        soundController.StopAmbientSounds();
     }
     private void Update()
     {
@@ -266,6 +267,7 @@ public class LevelController : MonoBehaviour
         soundController.StartExploreSound();
         soundController.PlayFlashDoneSound();
         soundController.PlayFenceClosingSound();
+        soundController.StartAmbientSounds();
         Cursor.lockState = CursorLockMode.Locked;
     }
     public void RestartGame()
