@@ -10,6 +10,7 @@ public class MainMenuWinController : MonoBehaviour
     [SerializeField] private SoundController _SoundController;
     [SerializeField] private GameObject ButtonsWin;
     [SerializeField] private GameObject SettingsWin;
+    [SerializeField] private GameObject AutorsWin;
     [Space]
     [Header("Settings Win")]
     [SerializeField] private FirstPersonController playerCameraController;
@@ -28,6 +29,7 @@ public class MainMenuWinController : MonoBehaviour
     {
         ButtonsWin.SetActive(true);
         SettingsWin.SetActive(false);
+        AutorsWin.SetActive(false);
     }
     public void OpenSettingsWin() 
     {
@@ -52,7 +54,12 @@ public class MainMenuWinController : MonoBehaviour
         SettingsWin.SetActive(false);
         _SoundController.PlayButtonSound();
     }
-    //Settings Win
+    public void OpenAutorsWin() 
+    {
+        ButtonsWin.SetActive(false);
+        SettingsWin.SetActive(false);
+        AutorsWin.SetActive(true);
+    }
     public void SetSensivityFromSLider()
     {
         playerCameraController.SetCameraSensivity(SensivitySlider.value);
