@@ -1950,7 +1950,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 858184509}
         m_TargetAssemblyTypeName: MainMenuWinController, Assembly-CSharp
-        m_MethodName: OpenMainMenuWin
+        m_MethodName: CloseAutorsWin
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

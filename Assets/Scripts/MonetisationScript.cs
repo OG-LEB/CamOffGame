@@ -1,15 +1,20 @@
+using System.Collections;
 using UnityEngine;
 using YG;
 
 public class MonetisationScript : MonoBehaviour
 {
-    //private YandexGame YaGame;
-    //private void Start()
-    //{
-    //    YaGame = GetComponent<YandexGame>();
-    //}
     public void ShowAd() 
     {
-        YandexGame.FullscreenShow();
+        StartCoroutine(AdTimer());
     }
+    IEnumerator AdTimer() 
+    {
+        //Debug.Log("Started ad timer");
+        yield return new WaitForSecondsRealtime(1);
+        YandexGame.FullscreenShow();
+        //Debug.Log("Showed ad! ");
+
+    }
+
 }

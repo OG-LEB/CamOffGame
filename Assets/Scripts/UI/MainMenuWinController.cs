@@ -59,6 +59,14 @@ public class MainMenuWinController : MonoBehaviour
         ButtonsWin.SetActive(false);
         SettingsWin.SetActive(false);
         AutorsWin.SetActive(true);
+        _SoundController.PlayButtonSound();
+    }
+    public void CloseAutorsWin() 
+    {
+        ButtonsWin.SetActive(true);
+        SettingsWin.SetActive(false);
+        AutorsWin.SetActive(false);
+        _SoundController.PlayButtonSound();
     }
     public void SetSensivityFromSLider()
     {
