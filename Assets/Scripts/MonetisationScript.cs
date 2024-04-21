@@ -6,15 +6,15 @@ public class MonetisationScript : MonoBehaviour
 {
     public void ShowAd() 
     {
-        StartCoroutine(AdTimer());
-    }
-    IEnumerator AdTimer() 
-    {
-        //Debug.Log("Started ad timer");
-        yield return new WaitForSecondsRealtime(1);
+        //StartCoroutine(AdTimer());
         YandexGame.FullscreenShow();
-        //Debug.Log("Showed ad! ");
-
     }
+    //IEnumerator AdTimer() 
+    //{
+    //    //Debug.Log("Started ad timer");
+    //    yield return new WaitForSecondsRealtime(1);
+    //    //Debug.Log("Showed ad! ");
+
+    //}
 
 }

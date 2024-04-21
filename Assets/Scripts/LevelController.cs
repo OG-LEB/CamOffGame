@@ -283,7 +283,7 @@ public class LevelController : MonoBehaviour
         //Player.GetComponent<PlayerMovement>().RestartStamina();
         Player.GetComponent<FirstPersonController>().RestartStamina();
         GameAwake();
-
+        Monetisation.ShowAd();
     }
     public void EmptyButton()
     {
@@ -383,7 +383,7 @@ public class LevelController : MonoBehaviour
         isGameOver = true;
         soundController.DisablePlaySoundTrack();
         VokzalGuy.SetActive(false);
-        Monetisation.ShowAd();
+        
     }
     public void OpenNote()
     {
